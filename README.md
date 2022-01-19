@@ -1,7 +1,8 @@
 # Application de Chat Privé réalisé dans le cadre de mon projet de fin d'alternance à la 3WA Academy.
 
-Ce projet a été réalisé avec React.JS et Firebase v9
-Services Firebase utilisés : 
+Ce projet a été réalisé avec React.JS et Firebase v9.
+
+### Services Firebase utilisés : 
 <ul>
   <li>Auth</li>
   <li>Firestore</li>
