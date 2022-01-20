@@ -3,13 +3,13 @@ import Moment from "react-moment";
 import 'moment/locale/fr';
 
 const Message = ({ msg, user1 }) => {
+  
   const scrollRef = useRef();
-
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   });
-  
+
   return (
     <div
       className={`message_wrapper ${msg.from === user1 ? "own" : ""}`}

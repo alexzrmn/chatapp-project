@@ -18,7 +18,7 @@ const ForgotPassword = () => {
                 setMessage('Un lien de rénitialisation de mot de passe vous a été envoyé sur votre boite email')
             })
             .catch(() => {
-                setError('Erreur lors de la rénitialisation du mot de passe')
+                setError("Erreur lors de la rénitialisation du mot de passe, cet email n'existe pas ou n'est pas valide")
             })
             .finally(() => {
                 setLoading(false)

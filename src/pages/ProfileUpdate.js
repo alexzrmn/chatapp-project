@@ -15,7 +15,11 @@ const ProfileUpdate = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Les mots de passe ne sont pas identiques");
+            return setError("Erreur : Les mots de passe ne sont pas identiques");
+        }
+
+        if(passwordRef.current.value < 6 || passwordConfirmRef.current.value < 6) {
+            return setError("Erreur : Un mot de passe doit faire au minimum 6 caractères");
         }
 
         const promises = [];
