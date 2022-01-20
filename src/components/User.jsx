@@ -36,7 +36,7 @@ const User = ({ user1, user, selectUser, chat }) => {
         {data && (
           <p className="truncate">
             <strong>{data.from === user1 ? "Moi:" : `${user.firstname} : `}</strong>
-            {data.text || data.media ? "image reçu" : null}
+            {data.media ? "image" : `${data.text}`}
           </p>
         )}
       </div>
