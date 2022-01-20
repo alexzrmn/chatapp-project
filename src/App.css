@@ -224,7 +224,6 @@
     overflow-y: auto;
   }
   .user_wrapper {
-    margin-bottom: 10px;
     padding: 10px;
     cursor: pointer;
   }
@@ -371,6 +370,7 @@
     align-items: center;
     cursor: pointer;
   }
+
 
   @media screen and (max-width: 767px) {
     .home_container {

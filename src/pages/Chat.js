@@ -25,12 +25,13 @@ const Home = () => {
   const [img, setImg] = useState("");
   const [msgs, setMsgs] = useState([]);
 
+  // uid de l'user connecté
   const user1 = auth.currentUser.uid;
 
   useEffect(() => {
     // Récupére la collection users
     const usersRef = collection(db, "users");
-    // Créé la requête permettant de récupérer tous les users
+    // Créé la requête permettant de récupérer tous les users sauf l'user connecté
     const q = query(usersRef, where("uid", "not-in", [user1]));
     // Execute la requête
     const unsub = onSnapshot(q, (querySnapshot) => {
@@ -38,6 +39,7 @@ const Home = () => {
       querySnapshot.forEach((doc) => {
         users.push(doc.data());
       });
+      // on peut les data dans notre etat local
       setUsers(users);
     });
     return () => unsub();
@@ -46,13 +48,8 @@ const Home = () => {
   const selectUser = async (user) => {
     setChat(user);
     const user2 = user.uid;
-
-    // id de la conversation
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
-
-    // Créer une collection messages,
     const msgsRef = collection(db, "messages", id, "chat");
-    // Créer la requête permettant la création du chat entre les deux users
     const q = query(msgsRef, orderBy("createdAt", "asc"));
 
     onSnapshot(q, (querySnapshot) => {
@@ -72,32 +69,6 @@ const Home = () => {
     }
   };
 
-  const handleUpload = async (e) => {
-    const user2 = chat.uid;
-    const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
-    let url;
-    if (img) {
-      const imgRef = ref(
-        storage,
-        `images/${new Date().getTime()} - ${img.name}`
-      );
-      const snap = await uploadBytes(imgRef, img);
-      const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
-      url = dlUrl;
-      setImg("")
-      
-      if(url) {
-        await addDoc(collection(db, "messages", id, "chat"), {
-          from: user1,
-          to: user2,
-          media: url,
-          createdAt: Timestamp.fromDate(new Date()),
-        });
-      }
-    }
-  }
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user2 = chat.uid;
@@ -113,7 +84,7 @@ const Home = () => {
       url = dlUrl;
     }
 
-    if(text.length > 0) {
+    if(text.length > 0 || url) {
       text.trim();
       await addDoc(collection(db, "messages", id, "chat"), {
         text: text || "",
@@ -131,6 +102,7 @@ const Home = () => {
         unread: true,
       });
       setText("");
+      setImg("");
     }
   };
 
@@ -158,11 +130,12 @@ const Home = () => {
                 ? msgs.map((msg, i) => (
                     <Message key={i} msg={msg} user1={user1} />
                   ))
-                : null}
+                : (
+                  <p className="no_conv">Echanger votre premier message 😄</p>
+                )}
             </div>
             <MessageForm
               handleSubmit={handleSubmit}
-              handleUpload={handleUpload}
               text={text}
               setText={setText}
               setImg={setImg}

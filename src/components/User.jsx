@@ -13,7 +13,7 @@ const User = ({ user1, user, selectUser, chat }) => {
       setData(doc.data());
     });
     return () => unsub();
-  });
+  }, [user1, user2, data]);
 
   return (
     <>
@@ -36,7 +36,7 @@ const User = ({ user1, user, selectUser, chat }) => {
         {data && (
           <p className="truncate">
             <strong>{data.from === user1 ? "Moi:" : `${user.firstname} : `}</strong>
-            {data.text}
+            {data.text || data.media ? "image reçu" : null}
           </p>
         )}
       </div>

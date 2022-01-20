@@ -1,7 +1,7 @@
 import React from "react";
 import { FiSend, FiUpload } from 'react-icons/fi'
 
-const MessageForm = ({ handleSubmit, handleUpload, text, setText, setImg }) => {
+const MessageForm = ({ handleSubmit, text, img, setText, setImg }) => {
   return (
     <form id="form" className="message_form" onSubmit={handleSubmit}>
       <label className="btn_nobg" htmlFor="img">
@@ -12,7 +12,6 @@ const MessageForm = ({ handleSubmit, handleUpload, text, setText, setImg }) => {
         onChange={(e) => { 
           e.preventDefault();
           setImg(e.target.files[0]);
-          handleUpload()
         }}
         type="file"
         id="img"
