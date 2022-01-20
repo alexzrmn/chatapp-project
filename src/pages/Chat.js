@@ -24,22 +24,16 @@ const Home = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState("");
   const [msgs, setMsgs] = useState([]);
-
-  // uid de l'user connecté
   const user1 = auth.currentUser.uid;
 
   useEffect(() => {
-    // Récupére la collection users
     const usersRef = collection(db, "users");
-    // Créé la requête permettant de récupérer tous les users sauf l'user connecté
     const q = query(usersRef, where("uid", "not-in", [user1]));
-    // Execute la requête
     const unsub = onSnapshot(q, (querySnapshot) => {
       let users = [];
       querySnapshot.forEach((doc) => {
         users.push(doc.data());
       });
-      // on peut les data dans notre etat local
       setUsers(users);
     });
     return () => unsub();
@@ -60,11 +54,8 @@ const Home = () => {
       setMsgs(msgs);
     });
 
-    // Récupére le dernier message envoyé
     const docSnap = await getDoc(doc(db, "lastMsg", id));
-    // si le dernier message existe et que l'utilisateur à lu le message
     if (docSnap.data() && docSnap.data().from !== user1) {
-      // on update le champ unread à false
       await updateDoc(doc(db, "lastMsg", id), { unread: false });
     }
   };

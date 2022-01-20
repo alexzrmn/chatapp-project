@@ -41,11 +41,12 @@ const ForgotPassword = () => {
                 
                 <div className="input_container">
                     <div className="btn_container">
-                        <button className="btn">
+                        <button className="btn" disabled={loading}>
                             Rénitialiser le mot de passe
                         </button>
                     </div>
                 </div>
+                {message ? <p className="error">{message}</p> : null}
                 {error ? <p className="error">{error}</p> : null}
             </form>
         </section>
